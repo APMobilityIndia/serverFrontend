@@ -157,23 +157,24 @@ export default function Header() {
         </div>
       ) : (
         <div className="flex space-x-2 flex-row">
-          <div className="p-[2px] rounded-full bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500">
-            <Link
-              to="/login"
-              className="block px-6 py-2 bg-gray-900 text-white rounded-full bord"
-            >
-              Login
-            </Link>
-          </div>
-          <div className="p-[2px] rounded-full bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500">
-            <Link
-              to="/register"
-              className="block px-6 py-2 bg-gray-900 text-white rounded-full"
-            >
-              Register
-            </Link>
-          </div>
-        </div>
+  <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
+    <Link
+      to="/login"
+      className="block px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg"
+    >
+      Login
+    </Link>
+  </div>
+  <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
+    <Link
+      to="/register"
+      className="block px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg"
+    >
+      Register
+    </Link>
+  </div>
+</div>
+
       )}
     </div>
   );

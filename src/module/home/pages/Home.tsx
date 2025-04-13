@@ -1,8 +1,8 @@
-// src/components/Home.tsx
 import React, { useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import Leaderboard from "../../../components/Leaderboard";
+import Rules from "../../../components/Rules";
 
-// Types for future API integration
 interface GameCategory {
   id: string;
   name: string;
@@ -37,10 +37,9 @@ const Home: React.FC<HomeProps> = ({
   gameCategories = [],
   announcement = "",
 }) => {
-  // State for banner carousel
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState("lottery");
 
-  // Static data for development - replace with props when API is ready
   const staticBanners: BannerSlide[] = [
     {
       id: "banner1",
@@ -81,49 +80,49 @@ const Home: React.FC<HomeProps> = ({
     {
       id: "lottery",
       name: "Lottery",
-      image: "/assets/lottery.jpg",
+      image: "/assets/wheel.png",
       slug: "lottery",
     },
     {
       id: "mini-games",
       name: "Mini games",
-      image: "/assets/mini-games.jpg",
+      image: "/assets/wheel.png",
       slug: "mini-games",
     },
     {
       id: "hot-slot",
       name: "Hot slot",
-      image: "/assets/hot-slot.jpg",
+      image: "/assets/wheel.png",
       slug: "hot-slot",
     },
     {
       id: "slot",
       name: "Slot",
-      image: "/assets/slot.jpg",
+      image: "/assets/wheel.png",
       slug: "slot",
     },
     {
       id: "fishing",
       name: "Fishing",
-      image: "/assets/fishing.jpg",
+      image: "/assets/wheel.png",
       slug: "fishing",
     },
     {
       id: "pvc",
       name: "PVC",
-      image: "/assets/pvc.jpg",
+      image: "/assets/wheel.png",
       slug: "pvc",
     },
     {
       id: "casino",
       name: "Casino",
-      image: "/assets/casino.jpg",
+      image: "/assets/wheel.png",
       slug: "casino",
     },
     {
       id: "sports",
       name: "Sports",
-      image: "/assets/sports.jpg",
+      image: "/assets/wheel.png",
       slug: "sports",
     },
   ];
@@ -131,7 +130,6 @@ const Home: React.FC<HomeProps> = ({
   const staticAnnouncement =
     "prm: We provide a brand new gaming enorm. We provide a brand new gaming ex.";
 
-  // Use props if provided, otherwise fall back to static data
   const displayBanners = banners.length > 0 ? banners : staticBanners;
   const displayFeaturedGames =
     featuredGames.length > 0 ? featuredGames : staticFeaturedGames;
@@ -139,7 +137,6 @@ const Home: React.FC<HomeProps> = ({
     gameCategories.length > 0 ? gameCategories : staticGameCategories;
   const displayAnnouncement = announcement || staticAnnouncement;
 
-  // Handle banner navigation
   const nextBanner = () => {
     setCurrentBannerIndex((prevIndex) =>
       prevIndex === displayBanners.length - 1 ? 0 : prevIndex + 1
@@ -152,45 +149,36 @@ const Home: React.FC<HomeProps> = ({
     );
   };
 
-  // Auto-rotate banners
   useEffect(() => {
     const timer = setInterval(() => {
       nextBanner();
     }, 5000);
-
     return () => clearInterval(timer);
   }, []);
 
+  const promoContent = [1, 2, 3, 4];
+
   return (
     <div className="flex flex-col bg-[#1A0B2E] min-h-screen text-white">
-      {/* Content container - adjust padding to account for header and bottom tab */}
-      <div className="flex-1 py-2 pb-16">
-        {" "}
-        {/* pb-16 to make room for bottom tabs */}
-        {/* Main Banner Carousel */}
-        <div className="relative w-100 px-3 py-2 ">
+      <div className="flex-1 py-2 pb-16 w-full max-w-md mx-auto">
+<div className="relative w-100 px-3 py-2 ml-6">
+          <button
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg"
+            onClick={prevBanner}
+            style={{
+              background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
+              boxShadow: "0 4px 10px rgba(99, 102, 241, 0.5)",
+            }}
+          >
+            <FiChevronLeft size={20} color="white" />
+          </button>
+
           <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg">
             <img
               src={displayBanners[currentBannerIndex]?.image}
               alt={displayBanners[currentBannerIndex]?.title}
-              className="w-100 h-54 object-cover"
+              className="w-full h-[180px] object-cover"
             />
-
-            {/* Banner Navigation Arrows */}
-            <button
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-purple-800 bg-opacity-50 rounded-full p-1"
-              onClick={prevBanner}
-            >
-              <FiChevronLeft size={24} />
-            </button>
-            <button
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-purple-800 bg-opacity-50 rounded-full p-1"
-              onClick={nextBanner}
-            >
-              <FiChevronRight size={24} />
-            </button>
-
-            {/* Banner Dots Indicator */}
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
               {displayBanners.map((_, index) => (
                 <div
@@ -203,29 +191,28 @@ const Home: React.FC<HomeProps> = ({
               ))}
             </div>
           </div>
+
+          <button
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg"
+            onClick={nextBanner}
+            style={{
+              background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
+              boxShadow: "0 4px 10px rgba(99, 102, 241, 0.5)",
+            }}
+          >
+            <FiChevronRight size={20} color="white" />
+          </button>
         </div>
-        {/* Featured Games Row */}
-        <div className="grid grid-cols-2 gap-3 px-3 mt-2 mb-4">
-          {displayFeaturedGames.map((game) => (
-            <div
-              key={game.id}
-              className="rounded-xl overflow-hidden relative shadow-lg border border-purple-700"
-            >
-              <img
-                src={game.image}
-                alt={game.name}
-                className="w-full h-20 object-cover"
-              />
-              <div className="absolute bottom-1 left-2 text-xs font-semibold">
-                {game.name}
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* Game Categories Grid */}
+
         <div className="grid grid-cols-4 gap-3 px-3 mb-4">
           {displayGameCategories.map((category) => (
-            <div key={category.id} className="flex flex-col items-center">
+            <div
+              key={category.id}
+              className={`flex flex-col items-center cursor-pointer ${
+                selectedCategory === category.slug ? "border border-teal-400" : ""
+              }`}
+              onClick={() => setSelectedCategory(category.slug)}
+            >
               <div className="rounded-lg overflow-hidden mb-1 bg-purple-800 shadow-lg">
                 <img
                   src={category.image}
@@ -239,8 +226,7 @@ const Home: React.FC<HomeProps> = ({
             </div>
           ))}
         </div>
-        {/* Announcement Banner */}
-        <div className="bg-purple-950 mt-auto mx-3 mb-4 rounded-lg flex items-center p-2 border border-red-500">
+ <div className="bg-purple-950 mt-auto mx-3 my-4 rounded-lg flex items-center p-2 border border-red-500">
           <div className="bg-red-500 rounded-md p-1 mr-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -255,12 +241,40 @@ const Home: React.FC<HomeProps> = ({
               />
             </svg>
           </div>
-          <div className="flex-1 text-xs truncate">{displayAnnouncement}</div>
+          <div className="flex-1 text-xs break-words whitespace-normal">
+            {displayAnnouncement}
+          </div>
           <button className="text-xs bg-purple-700 px-3 py-1 rounded ml-2">
             Detail
           </button>
         </div>
+        <div className="px-3">
+          <div className="text-lg font-semibold mb-2 capitalize">
+            {selectedCategory}
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {promoContent.map((_, index) => (
+              <div
+                key={index}
+                className="rounded-xl overflow-hidden border border-purple-700 shadow-lg relative"
+              >
+                <img
+                  src="/assets/wheel.png"
+                  alt="Promo"
+                  className="w-full h-24 object-cover"
+                />
+                <div className="absolute top-2 left-2 bg-white text-black text-xs px-2 py-1 rounded">
+                  WIN GO
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+       
       </div>
+      <Leaderboard/>
+      <Rules/>
     </div>
   );
 };

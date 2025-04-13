@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+
 import {
   FiChevronDown,
   FiEye,
@@ -18,6 +20,8 @@ import { register } from "../redux/authApi";
 import { useDispatch } from "react-redux";
 
 export default function RegistrationForm() {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -68,14 +72,16 @@ export default function RegistrationForm() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto"
+    
+    >
       {/* Header */}
       <div
         style={{ backgroundColor: "#040b24" }}
         className="bg-blue-950 p-4 flex items-center w-full"
       >
         <div className="flex-1 text-center">
-          <div className="font-bold text-3xl italic inline">Jalwa.</div>
+          <div className="font-bold text-3xl italic inline">MBS.</div>
           <div className="font-bold text-lg italic inline">Game</div>
         </div>
         <div className="flex items-center">
@@ -291,9 +297,13 @@ export default function RegistrationForm() {
 
           {/* Login link */}
           <div className="text-center w-full">
-            <div className="text-white border border-teal-400 rounded-full w-full py-3">
-              I have an account <span className="text-teal-400">Login</span>
-            </div>
+           <div
+  onClick={() => navigate("/login")}
+  className="text-white border border-teal-400 rounded-full w-full py-3 cursor-pointer hover:bg-teal-800 hover:bg-opacity-10 transition"
+>
+  I have an account <span className="text-teal-400 font-medium">Login</span>
+</div>
+
           </div>
         </form>
       </div>

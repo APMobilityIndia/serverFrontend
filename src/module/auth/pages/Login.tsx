@@ -74,14 +74,16 @@ export default function Login() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto"
+    
+    >
       {/* Header */}
       <div
         style={{ backgroundColor: "#040b24" }}
         className="bg-blue-950 p-4 flex items-center w-full"
       >
         <div className="flex-1 text-center">
-          <div className="font-bold text-3xl italic inline">Jalwa.</div>
+          <div className="font-bold text-3xl italic inline">MBS.</div>
           <div className="font-bold text-lg italic inline">Game</div>
         </div>
         <div className="flex items-center">
@@ -224,22 +226,27 @@ export default function Login() {
 
           {/* Register link */}
           <div className="text-center w-full">
-            <div className="text-white border border-teal-400 rounded-full w-full py-3">
-              <span className="text-teal-400">Register</span>
-            </div>
+           <div
+  onClick={() => navigate("/register")}
+  className="text-white border border-teal-400 rounded-full w-full py-3 cursor-pointer hover:bg-teal-800 hover:bg-opacity-10 transition"
+>
+  <span className="text-teal-400 font-medium">Register</span>
+</div>
+
           </div>
 
           {/* Forgot Password & Customer Service */}
-          <div className="flex items-center justify-around mt-4">
-            <div className="text-center">
-              <IoMdLock size={40} color="#2dd4bf" />
-              <div>Forgot password</div>
-            </div>
-            <div className="text-center">
-              <RiCustomerServiceFill size={40} color="#2dd4bf" />
-              <div>Customer Service</div>
-            </div>
-          </div>
+          <div className="flex justify-around mt-4">
+  <div className="flex flex-col items-center">
+    <IoMdLock size={40} color="#2dd4bf" />
+    <div className="mt-1 text-sm text-center">Forgot password</div>
+  </div>
+  <div className="flex flex-col items-center">
+    <RiCustomerServiceFill size={40} color="#2dd4bf" />
+    <div className="mt-1 text-sm text-center">Customer Service</div>
+  </div>
+</div>
+
         </form>
       </div>
     </div>
