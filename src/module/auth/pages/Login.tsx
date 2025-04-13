@@ -1,4 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import {
   FiChevronDown,
   FiEye,
@@ -12,12 +17,61 @@ import { FcInvite } from "react-icons/fc";
 import { FaIdCardClip } from "react-icons/fa6";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiCustomerServiceFill } from "react-icons/ri";
-
 import { IoMdLock } from "react-icons/io";
+import { login } from "../redux/authApi"; // Adjust path based on your folder structure
+
 export default function Login() {
+  const { token } = useSelector((state: any) => state.auth);
+  console.log("token", token);
+  const navigate = useNavigate();
+
+  // Redirect after successful login
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
+
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [agreed, setAgreed] = useState(true);
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state: any) => state.auth);
+
+  // Form validation schema using Yup
+  const validationSchema = Yup.object({
+    phone: Yup.string()
+      .required("Phone number is required")
+      .matches(/^[0-9]+$/, "Phone number must contain only digits"),
+    plain_password: Yup.string().required("Password is required"),
+    rememberPassword: Yup.boolean(),
+  });
+
+  // Initialize Formik
+  const formik = useFormik({
+    initialValues: {
+      phone: "",
+      plain_password: "",
+      rememberPassword: true,
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      // Extract only the required fields for API submission
+      const data = {
+        phone: values.phone,
+        plain_password: values.plain_password,
+      };
+
+      // Store remember password preference if needed
+      if (values.rememberPassword) {
+        localStorage.setItem("rememberedPhone", values.phone);
+      } else {
+        localStorage.removeItem("rememberedPhone");
+      }
+
+      // Dispatch the login action with data
+      const loginRes = await dispatch(login(data));
+      console.log("loginRes", loginRes);
+    },
+  });
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto">
@@ -53,12 +107,12 @@ export default function Login() {
         >
           <h1 className="!text-lg font-bold mb-1">Login</h1>
           <p className="text-sm text-gray-300 mb-6">
-            Please log in with your phone .If you forget your password, please
+            Please log in with your phone. If you forget your password, please
             contact customer service
           </p>
         </div>
 
-        {/* Phone registration section */}
+        {/* Phone login section */}
         <div className="w-full mb-2 flex items-center justify-center mt-4">
           <FaMobileAlt size={25} color="#2dd4bf" />
         </div>
@@ -68,8 +122,15 @@ export default function Login() {
         </div>
         <div className="border-b border-teal-400 mb-6 w-full"></div>
 
+        {/* Display error message from redux state if any */}
+        {error && (
+          <div className="bg-red-500 bg-opacity-20 text-red-500 p-3 rounded-lg mb-4">
+            {error}
+          </div>
+        )}
+
         {/* Form fields */}
-        <div className="space-y-4 w-full">
+        <form onSubmit={formik.handleSubmit} className="space-y-4 w-full">
           {/* Phone input */}
           <div className="flex items-center mb-1">
             <div className="text-teal-400 mr-3">
@@ -77,16 +138,27 @@ export default function Login() {
             </div>
             <div className="font-medium">Phone number</div>
           </div>
-          <div className="flex mb-4 w-full">
-            <div className="bg-blue-900 rounded-l-lg px-4 py-3 flex items-center border-r border-blue-800">
-              <span>+91</span>
-              <FiChevronDown size={16} className="ml-2" />
+          <div className="flex flex-col mb-4 w-full">
+            <div className="flex w-full">
+              <div className="bg-blue-900 rounded-l-lg px-4 py-3 flex items-center border-r border-blue-800">
+                <span>+91</span>
+                <FiChevronDown size={16} className="ml-2" />
+              </div>
+              <input
+                type="text"
+                name="phone"
+                placeholder="Please enter the phone number"
+                className="bg-blue-900 rounded-r-lg px-4 py-3 flex-1 outline-none text-gray-300 w-full"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
             </div>
-            <input
-              type="text"
-              placeholder="Please enter the phone number"
-              className="bg-blue-900 rounded-r-lg px-4 py-3 flex-1 outline-none text-gray-300 w-full"
-            />
+            {formik.touched.phone && formik.errors.phone ? (
+              <div className="text-red-500 text-xs mt-1">
+                {formik.errors.phone}
+              </div>
+            ) : null}
           </div>
 
           {/* Password input */}
@@ -99,24 +171,38 @@ export default function Login() {
           <div className="relative mb-4 w-full">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Set password"
+              name="plain_password"
+              placeholder="Enter password"
               className="bg-blue-900 rounded-lg px-4 py-3 w-full outline-none text-gray-300"
+              value={formik.values.plain_password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
             <div
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
             </div>
+            {formik.touched.plain_password && formik.errors.plain_password ? (
+              <div className="text-red-500 text-xs mt-1">
+                {formik.errors.plain_password}
+              </div>
+            ) : null}
           </div>
 
-          {/* Agreement */}
+          {/* Remember password */}
           <div className="flex items-center mb-8">
             <div
-              onClick={() => setAgreed(!agreed)}
-              className="w-6 h-6 rounded-full text-teal-400"
+              onClick={() =>
+                formik.setFieldValue(
+                  "rememberPassword",
+                  !formik.values.rememberPassword
+                )
+              }
+              className="w-6 h-6 rounded-full text-teal-400 cursor-pointer"
             >
-              {agreed ? (
+              {formik.values.rememberPassword ? (
                 <div className="w-6 h-6 bg-teal-400 rounded-full flex items-center justify-center">
                   <FiCheck size={16} className="text-blue-950" />
                 </div>
@@ -128,20 +214,23 @@ export default function Login() {
           </div>
 
           {/* Login button */}
-          <div className="w-full bg-gradient-to-b from-teal-400 to-teal-700 text-blue-950 font-bold py-3 rounded-full mb-6 text-center">
-            Log in
-          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-b from-teal-400 to-teal-700 text-blue-950 font-bold py-3 rounded-full mb-6 text-center cursor-pointer disabled:opacity-70"
+          >
+            {loading ? "Logging in..." : "Log in"}
+          </button>
 
-          {/* Login link */}
+          {/* Register link */}
           <div className="text-center w-full">
             <div className="text-white border border-teal-400 rounded-full w-full py-3">
               <span className="text-teal-400">Register</span>
             </div>
           </div>
 
-          {/* Forgot Password */}
-
-          <div className="flex items-center gap-35">
+          {/* Forgot Password & Customer Service */}
+          <div className="flex items-center justify-around mt-4">
             <div className="text-center">
               <IoMdLock size={40} color="#2dd4bf" />
               <div>Forgot password</div>
@@ -151,7 +240,7 @@ export default function Login() {
               <div>Customer Service</div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
