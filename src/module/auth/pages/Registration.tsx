@@ -72,9 +72,7 @@ export default function RegistrationForm() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto"
-    
-    >
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto">
       {/* Header */}
       <div
         style={{ backgroundColor: "#040b24" }}
@@ -135,7 +133,7 @@ export default function RegistrationForm() {
               type="text"
               name="name_user"
               placeholder="Please enter your name"
-              className="bg-blue-900 rounded-lg px-4 py-3 flex-1 outline-none text-gray-300 w-full"
+              className="bg-blue-900 rounded-lg px-4 py-3 flex-1 outline-none text-gray-300 w-100"
               value={formik.values.name_user}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -297,13 +295,13 @@ export default function RegistrationForm() {
 
           {/* Login link */}
           <div className="text-center w-full">
-           <div
-  onClick={() => navigate("/login")}
-  className="text-white border border-teal-400 rounded-full w-full py-3 cursor-pointer hover:bg-teal-800 hover:bg-opacity-10 transition"
->
-  I have an account <span className="text-teal-400 font-medium">Login</span>
-</div>
-
+            <div
+              onClick={() => navigate("/login")}
+              className="text-white border border-teal-400 rounded-full w-full py-3 cursor-pointer hover:bg-teal-800 hover:bg-opacity-10 transition"
+            >
+              I have an account{" "}
+              <span className="text-teal-400 font-medium">Login</span>
+            </div>
           </div>
         </form>
       </div>

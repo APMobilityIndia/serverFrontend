@@ -14,7 +14,9 @@ const Rules: React.FC = () => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-baseline">
           <span className="text-pink-500 text-xl font-semibold mr-1">MRS</span>
-          <span className="text-gray-400 text-base font-normal">.Singapore</span>
+          <span className="text-gray-400 text-base font-normal">
+            .Singapore
+          </span>
         </div>
         <div className="bg-pink-600 text-white text-xs font-bold px-3 py-1 rounded-full">
           18+
@@ -23,19 +25,24 @@ const Rules: React.FC = () => {
 
       <ul className="space-y-4">
         {rulesList.map((rule, index) => (
-          <li key={index} className="text-[13px] leading-snug flex items-start">
-            <span className="text-pink-400 mr-2 mt-1">◆</span>
-            <span className="text-gray-300 leading-snug">
+          <li
+            key={index}
+            className="flex items-start text-sm text-gray-300 leading-tight"
+          >
+            <span className="text-pink-400 mr-2 text-base leading-[1] mt-1">
+              ◆
+            </span>
+            <p className="flex-1 text-left">
               {rule.includes("MRS") ? (
                 <>
                   <span className="text-pink-400 font-semibold">MRS</span>
                   <span className="text-gray-400 font-normal"> .singapore</span>
-                  {" " + rule.split("singapore")[1]}
+                  {rule.split("singapore")[1]}
                 </>
               ) : (
                 rule
               )}
-            </span>
+            </p>
           </li>
         ))}
       </ul>

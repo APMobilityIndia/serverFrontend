@@ -1,18 +1,17 @@
 import React from "react";
-import crownIcon from "/assets/crown.png"; // Add crown image if needed
+
+const earningsData = [
+  { rank: 2, name: "Zac", amount: "₹360954", avatar: "/assets/Person2.png" },
+  { rank: 1, name: "Naomi", amount: "₹360954", avatar: "/assets/Person1.png" },
+  { rank: 3, name: "Mia", amount: "₹360954", avatar: "/assets/Person3.png" },
+];
 
 const winningData = Array(5).fill({
   username: "Mem***EHP",
-  avatar: "/assets/avatar.png",
+  avatar: "/assets/profile.png",
   gameImage: "/assets/wheel.png",
   amount: "₹18.00",
 });
-
-const earningsData = [
-  { rank: 1, name: "Naomi", amount: "₹360954", avatar: "/assets/avatar1.png" },
-  { rank: 2, name: "Zac", amount: "₹360954", avatar: "/assets/avatar2.png" },
-  { rank: 3, name: "Mia", amount: "₹360954", avatar: "/assets/avatar3.png" },
-];
 
 const listData = [
   { rank: 4, amount: "₹1888600.00" },
@@ -23,7 +22,10 @@ const listData = [
   { rank: 9, amount: "₹134348.00" },
 ];
 
-const Leaderboard: React.FC = () => {
+// URL to your podium image
+const podiumImageUrl = "/assets/podium.png"; // Replace with your actual image path
+
+const Leaderboard = () => {
   return (
     <div className="px-3 pb-6">
       {/* Winning Information Section */}
@@ -32,10 +34,8 @@ const Leaderboard: React.FC = () => {
         {winningData.map((item, index) => (
           <div
             key={index}
-            className={`flex items-center rounded-lg px-3 py-2 ${
-              index % 2 === 0
-                ? "bg-gradient-to-r from-[#321456] to-[#290e3f]"
-                : "bg-gradient-to-r from-[#220a32] to-[#1a082b]"
+            className={`flex items-center rounded-sm px-3 py-4 ${
+              index % 2 === 0 ? "bg-[rgba(131,34,117,0.3)]" : "bg-transparent"
             }`}
           >
             <img
@@ -56,7 +56,7 @@ const Leaderboard: React.FC = () => {
                 WINNING AMOUNT:
               </div>
             </div>
-            <div className="bg-pink-600 text-white px-4 py-1 rounded-full text-sm">
+            <div className="bg-gradient-to-r from-[#B00341] to-[#8D2579] text-white px-5 py-2 rounded-full text-sm">
               {item.amount}
             </div>
           </div>
@@ -65,64 +65,106 @@ const Leaderboard: React.FC = () => {
 
       {/* Earnings Chart Section */}
       <h2 className="text-white font-bold text-lg mt-8 mb-4">
-        Today’s Earnings Chart
+        Today's Earnings Chart
       </h2>
 
-      {/* Top 3 Podium */}
-      <div className="flex justify-center gap-3 mb-4 relative">
-        {earningsData.map((user) => (
-          <div
-            key={user.rank}
-            className={`flex flex-col items-center ${
-              user.rank === 1 ? "z-20 scale-125" : "z-10"
-            }`}
-          >
-            <div
-              className={`w-16 h-16 rounded-full border-2 border-pink-500 relative overflow-hidden mb-1 shadow-lg`}
-            >
-              <img
-                src={user.avatar}
-                alt="avatar"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="text-white text-xs font-medium">
-              {user.name}
-            </div>
-            <div className="text-pink-400 text-xs font-bold">
-              {user.amount}
-            </div>
-            <div
-              className={`mt-1 w-12 h-5 flex items-center justify-center text-xs font-bold rounded-t-sm ${
-                user.rank === 1
-                  ? "bg-purple-600 text-white"
-                  : user.rank === 2
-                  ? "bg-gray-400 text-black"
-                  : "bg-orange-400 text-black"
-              }`}
-            >
-              {user.rank === 1 ? "1st" : user.rank === 2 ? "2nd" : "3rd"}
+      {/* Podium Section with Image */}
+      <div className="relative pb-8 pt-16 mt-20">
+        {/* Podium Image */}
+        <div className="w-full flex justify-center">
+          <img
+            src="/assets/Leaderboard_Stages.png"
+            alt="Podium"
+            className="w-4/5 h-auto"
+          />
+        </div>
+
+        {/* Position Avatars */}
+        {/* Position Avatars */}
+        <div className="absolute top-0 left-0 w-full">
+          {/* 2nd Place Avatar */}
+          <div className="absolute -top-3 left-1/5 -ml-3">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 rounded-full border-2 border-gray-300 overflow-hidden">
+                <img
+                  src={earningsData.find((item) => item.rank === 2)?.avatar}
+                  alt="2nd Place"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-white text-xs font-medium mt-1">
+                {earningsData.find((item) => item.rank === 2)?.name}
+              </div>
+              <div className="text-gray-300 text-sm font-bold">
+                {earningsData.find((item) => item.rank === 2)?.amount}
+              </div>
             </div>
           </div>
-        ))}
+
+          {/* 1st Place Avatar */}
+          <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
+            <div className="flex flex-col items-center">
+              {/* Crown */}
+              <div className="absolute -top-4 w-6 h-6 text-pink-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12 1L9 9H2L7 14.5L5 22L12 17.5L19 22L17 14.5L22 9H15L12 1Z" />
+                </svg>
+              </div>
+              <div className="w-16 h-16 rounded-full border-2 border-pink-500 overflow-hidden">
+                <img
+                  src={earningsData.find((item) => item.rank === 1)?.avatar}
+                  alt="1st Place"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-white text-xs font-medium mt-1">
+                {earningsData.find((item) => item.rank === 1)?.name}
+              </div>
+              <div className="text-pink-500 text-sm font-bold">
+                {earningsData.find((item) => item.rank === 1)?.amount}
+              </div>
+            </div>
+          </div>
+
+          {/* 3rd Place Avatar */}
+          <div className="absolute top-2 right-1/5 -mr-4">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 rounded-full border-2 border-orange-400 overflow-hidden">
+                <img
+                  src={earningsData.find((item) => item.rank === 3)?.avatar}
+                  alt="3rd Place"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-white text-xs font-medium mt-1">
+                {earningsData.find((item) => item.rank === 3)?.name}
+              </div>
+              <div className="text-orange-400 text-sm font-bold">
+                {earningsData.find((item) => item.rank === 3)?.amount}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Ranking List */}
-      <div className="space-y-3">
+      <div className="space-y-3 -mt-10 ">
         {listData.map((item, i) => (
           <div
             key={i}
-            className={`flex items-center rounded-lg px-3 py-2 ${
-              i % 2 === 0
-                ? "bg-gradient-to-r from-[#321456] to-[#290e3f]"
-                : "bg-gradient-to-r from-[#220a32] to-[#1a082b]"
+            className={`flex items-center rounded-lg px-3 py-4 ${
+              i % 2 === 0 ? "bg-[rgba(131,34,117,0.3)]" : "bg-transparent"
             }`}
           >
             <span className="text-white text-sm font-bold mr-3">
               {item.rank}.
             </span>
             <img
-              src="/assets/avatar.png"
+              src="/assets/profile.png"
               alt="avatar"
               className="w-10 h-10 rounded-full mr-2 object-cover"
             />
@@ -132,7 +174,7 @@ const Leaderboard: React.FC = () => {
                 WINNING AMOUNT:
               </div>
             </div>
-            <div className="bg-pink-600 text-white px-4 py-1 rounded-full text-sm">
+            <div className="bg-gradient-to-r from-[#B00341] to-[#8D2579] text-white px-5 py-2 rounded-full text-sm">
               {item.amount}
             </div>
           </div>

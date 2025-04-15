@@ -4,47 +4,37 @@ import { Link, useLocation } from "react-router-dom";
 export default function BottomTab() {
   const { pathname } = useLocation();
 
+  const tabs = [
+    { to: "/", label: "Home", img: "/assets/homenav.png" },
+    { to: "/activity", label: "Activity", img: "/assets/activitynav.png" },
+    { to: "/promotion", label: "Promotion", img: "/assets/promotionnav.png" },
+    { to: "/wallet", label: "Wallet", img: "/assets/walletnav.png" },
+    { to: "/account", label: "Account", img: "/assets/accountnav.png" },
+  ];
+
   return (
-    <div className="bg-purple-900 text-white py-3 flex justify-around fixed bottom-0 w-full max-w-md mx-auto">
-      <Link to="/" className="flex flex-col items-center">
-        <div className="w-6 h-6 mb-1">
-          {/* You'll add your Home icon here */}
-          <div className="w-full h-full bg-gray-400 rounded-full"></div>
-        </div>
-        <span className="text-xs">Home</span>
-      </Link>
-
-      <Link to="/activity" className="flex flex-col items-center">
-        <div className="w-6 h-6 mb-1">
-          {/* You'll add your Activity icon here */}
-          <div className="w-full h-full bg-gray-400 rounded-full"></div>
-        </div>
-        <span className="text-xs">Activity</span>
-      </Link>
-
-      <Link to="/promotion" className="flex flex-col items-center">
-        <div className="w-6 h-6 mb-1 rounded-full flex items-center justify-center">
-          {/* You'll add your Promotion icon here */}
-          <div className="w-full h-full bg-pink-500 rounded-full"></div>
-        </div>
-        <span className="text-xs">Promotion</span>
-      </Link>
-
-      <Link to="/wallet" className="flex flex-col items-center">
-        <div className="w-6 h-6 mb-1">
-          {/* You'll add your Wallet icon here */}
-          <div className="w-full h-full bg-gray-400 rounded-full"></div>
-        </div>
-        <span className="text-xs">Wallet</span>
-      </Link>
-
-      <Link to="/account" className="flex flex-col items-center">
-        <div className="w-6 h-6 mb-1">
-          {/* You'll add your Account icon here */}
-          <div className="w-full h-full bg-gray-400 rounded-full"></div>
-        </div>
-        <span className="text-xs">Account</span>
-      </Link>
+    <div className="fixed bottom-0 left-0 right-0 bg-[#1A0B2E] border-t border-purple-800 py-2 px-4 flex justify-between max-w-md w-full mx-auto z-50">
+      {tabs.map((tab) => {
+        const isActive = pathname === tab.to;
+        return (
+          <Link
+            to={tab.to}
+            key={tab.to}
+            className="flex flex-col items-center justify-center w-full text-xs text-gray-400"
+          >
+            <img
+              src={tab.img}
+              alt={tab.label}
+              className={`w-6 h-6 mb-1 ${
+                isActive ? "opacity-100" : "opacity-50"
+              }`}
+            />
+            <span className={isActive ? "text-white font-medium" : ""}>
+              {tab.label}
+            </span>
+          </Link>
+        );
+      })}
     </div>
   );
 }

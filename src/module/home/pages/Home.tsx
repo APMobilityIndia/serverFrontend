@@ -70,7 +70,7 @@ const Home: React.FC<HomeProps> = ({
     },
     {
       id: "privilege",
-      name: "Privilege",
+      name: "Privileges",
       image: "/assets/category.png",
       slug: "privilege",
     },
@@ -80,49 +80,49 @@ const Home: React.FC<HomeProps> = ({
     {
       id: "lottery",
       name: "Lottery",
-      image: "/assets/wheel.png",
+      image: "/assets/image1.png",
       slug: "lottery",
     },
     {
       id: "mini-games",
       name: "Mini games",
-      image: "/assets/wheel.png",
+      image: "/assets/image2.png",
       slug: "mini-games",
     },
     {
       id: "hot-slot",
       name: "Hot slot",
-      image: "/assets/wheel.png",
+      image: "/assets/image3.png",
       slug: "hot-slot",
     },
     {
       id: "slot",
       name: "Slot",
-      image: "/assets/wheel.png",
+      image: "/assets/image4.png",
       slug: "slot",
     },
     {
       id: "fishing",
       name: "Fishing",
-      image: "/assets/wheel.png",
+      image: "/assets/image5.png",
       slug: "fishing",
     },
     {
       id: "pvc",
       name: "PVC",
-      image: "/assets/wheel.png",
+      image: "/assets/image6.png",
       slug: "pvc",
     },
     {
       id: "casino",
       name: "Casino",
-      image: "/assets/wheel.png",
+      image: "/assets/image7.png",
       slug: "casino",
     },
     {
       id: "sports",
       name: "Sports",
-      image: "/assets/wheel.png",
+      image: "/assets/image8.png",
       slug: "sports",
     },
   ];
@@ -161,9 +161,9 @@ const Home: React.FC<HomeProps> = ({
   return (
     <div className="flex flex-col bg-[#1A0B2E] min-h-screen text-white">
       <div className="flex-1 py-2 pb-16 w-full max-w-md mx-auto">
-<div className="relative w-100 px-3 py-2 ml-6">
+        <div className="relative w-100 px-3 py-2 ml-6">
           <button
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10"
             onClick={prevBanner}
             style={{
               background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
@@ -173,11 +173,11 @@ const Home: React.FC<HomeProps> = ({
             <FiChevronLeft size={20} color="white" />
           </button>
 
-          <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg">
+          <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg mb-20 h-50">
             <img
               src={displayBanners[currentBannerIndex]?.image}
               alt={displayBanners[currentBannerIndex]?.title}
-              className="w-full h-[180px] object-cover"
+              className="w-full h-[200px] object-cover"
             />
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
               {displayBanners.map((_, index) => (
@@ -193,7 +193,7 @@ const Home: React.FC<HomeProps> = ({
           </div>
 
           <button
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10"
             onClick={nextBanner}
             style={{
               background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
@@ -204,29 +204,74 @@ const Home: React.FC<HomeProps> = ({
           </button>
         </div>
 
-        <div className="grid grid-cols-4 gap-3 px-3 mb-4">
-          {displayGameCategories.map((category) => (
-            <div
-              key={category.id}
-              className={`flex flex-col items-center cursor-pointer ${
-                selectedCategory === category.slug ? "border border-teal-400" : ""
-              }`}
-              onClick={() => setSelectedCategory(category.slug)}
-            >
-              <div className="rounded-lg overflow-hidden mb-1 bg-purple-800 shadow-lg">
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="w-16 h-16 object-cover"
-                />
+        {/* Featured Games - Styled as per image with specific corner radius */}
+        <div className="px-3 mb-6 -mt-10 mb-10">
+          <div className="grid grid-cols-2 gap-3">
+            {displayFeaturedGames.map((game) => (
+              <div
+                key={game.id}
+                className="overflow-hidden shadow-lg cursor-pointer relative"
+                style={{
+                  backgroundImage: `url(${game.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: "70px",
+                  border: "1px solid #7E22CE",
+                  borderRadius: "8px 8px 44px 8px", // Custom border radius: top-left, top-right, bottom-right, bottom-left
+                }}
+              >
+                <div
+                  className="absolute inset-0 opacity-70"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(88, 28, 135, 0.8), transparent)",
+                    borderRadius: "8px 8px 44px 8px", // Match the outer radius but slightly smaller
+                  }}
+                ></div>
+                <div className="absolute bottom-3 left-4 text-white font-medium text-xl">
+                  {game.name}
+                </div>
               </div>
-              <span className="text-xs text-center text-white">
-                {category.name}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
- <div className="bg-purple-950 mt-auto mx-3 my-4 rounded-lg flex items-center p-2 border border-red-500">
+
+        <div
+          className="px-3 mb-4"
+          style={{
+            border: "2px solid #7E22CE",
+            borderRadius: "8px 8px 8px 8px", // Custom border radius
+            padding: "8px",
+            marginBottom: "16px",
+            maxWidth: "90%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <div className="grid grid-cols-4 gap-3">
+            {displayGameCategories.map((category) => (
+              <div
+                key={category.id}
+                className={`flex flex-col items-center cursor-pointer ${
+                  selectedCategory === category.slug ? "" : ""
+                }`}
+                onClick={() => setSelectedCategory(category.slug)}
+              >
+                <div className="rounded-lg overflow-hidden mb-1 bg-purple-800 shadow-lg">
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="w-20 h-20 object-cover"
+                  />
+                </div>
+                <span className="text-xs text-center text-white">
+                  {category.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="bg-purple-950 mt-auto mx-3 my-4 rounded-lg flex items-center p-2 border border-red-500">
           <div className="bg-red-500 rounded-md p-1 mr-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -244,12 +289,12 @@ const Home: React.FC<HomeProps> = ({
           <div className="flex-1 text-xs break-words whitespace-normal">
             {displayAnnouncement}
           </div>
-          <button className="text-xs bg-purple-700 px-3 py-1 rounded ml-2">
+          <button className="text-xs text-white px-2 py-1 rounded ml-2 bg-gradient-to-r from-purple-600 to-purple-900">
             Detail
           </button>
         </div>
         <div className="px-3">
-          <div className="text-lg font-semibold mb-2 capitalize">
+          <div className="text-lg font-semibold mb-2 capitalize flex ml-5">
             {selectedCategory}
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -259,22 +304,20 @@ const Home: React.FC<HomeProps> = ({
                 className="rounded-xl overflow-hidden border border-purple-700 shadow-lg relative"
               >
                 <img
-                  src="/assets/wheel.png"
+                  src="/assets/image1.png"
                   alt="Promo"
                   className="w-full h-24 object-cover"
                 />
-                <div className="absolute top-2 left-2 bg-white text-black text-xs px-2 py-1 rounded">
+                <div className="absolute top-2 left-2 bg-transparent text-white text-lg-bold px-2 py-1 rounded">
                   WIN GO
                 </div>
               </div>
             ))}
           </div>
         </div>
-
-       
       </div>
-      <Leaderboard/>
-      <Rules/>
+      <Leaderboard />
+      <Rules />
     </div>
   );
 };
