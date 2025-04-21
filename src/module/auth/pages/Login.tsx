@@ -127,8 +127,8 @@ export default function Login() {
 
         {/* Display error message from redux state if any */}
         {error && (
-          <div className="bg-red-500 bg-opacity-20 text-red-500 p-3 rounded-lg mb-4">
-            {error}
+          <div className="bg-white-600 bg-opacity-20 border border-red-500 text-red-500 p-3 rounded-lg mb-4 text-sm">
+            <strong>Error:</strong> {error}
           </div>
         )}
 

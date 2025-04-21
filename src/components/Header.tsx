@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FiBell, FiChevronDown } from "react-icons/fi";
 
 export default function Header() {
-  const token = useSelector((state: any) => state.auth?.user?.token);
+  const token = useSelector((state: any) => state.auth?.token); // Not user.token
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
   const [language, setLanguage] = useState("en");
@@ -40,7 +40,7 @@ export default function Header() {
         <img src="/assets/mbs_logo.png" className="w-20 h-20 object-cover" />
       </div>
       {token ? (
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 mr-4">
           {/* Language Dropdown */}
           <div className="relative">
             <div
@@ -157,24 +157,23 @@ export default function Header() {
         </div>
       ) : (
         <div className="flex space-x-2 flex-row">
-  <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
-    <Link
-      to="/login"
-      className="block px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg"
-    >
-      Login
-    </Link>
-  </div>
-  <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
-    <Link
-      to="/register"
-      className="block px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg"
-    >
-      Register
-    </Link>
-  </div>
-</div>
-
+          <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
+            <Link
+              to="/login"
+              className="block px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg"
+            >
+              Login
+            </Link>
+          </div>
+          <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
+            <Link
+              to="/register"
+              className="block px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg"
+            >
+              Register
+            </Link>
+          </div>
+        </div>
       )}
     </div>
   );

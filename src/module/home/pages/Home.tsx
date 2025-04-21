@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Leaderboard from "../../../components/Leaderboard";
 import Rules from "../../../components/Rules";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../../redux/store";
+import { fetchBanners } from "../redux/homeApi";
 
 interface GameCategory {
   id: string;
@@ -32,14 +35,19 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({
-  banners = [],
+  // banners = [],
   featuredGames = [],
   gameCategories = [],
   announcement = "",
 }) => {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("lottery");
+  const dispatch = useDispatch<AppDispatch>();
+  const banners = useSelector((state: RootState) => state.home.banners);
 
+  useEffect(() => {
+    dispatch(fetchBanners());
+  }, [dispatch]);
   const staticBanners: BannerSlide[] = [
     {
       id: "banner1",
@@ -173,11 +181,11 @@ const Home: React.FC<HomeProps> = ({
             <FiChevronLeft size={20} color="white" />
           </button>
 
-          <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg mb-20 h-50">
+          <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg mb-20 h-55 w-95">
             <img
               src={displayBanners[currentBannerIndex]?.image}
               alt={displayBanners[currentBannerIndex]?.title}
-              className="w-full h-[200px] object-cover"
+              className="w-full h-[220px] object-cover"
             />
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
               {displayBanners.map((_, index) => (

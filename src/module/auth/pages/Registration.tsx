@@ -18,6 +18,7 @@ import { MdDriveFileRenameOutline } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { register } from "../redux/authApi";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function RegistrationForm() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function RegistrationForm() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { error } = useSelector((state: any) => state.auth);
 
   // Form validation schema using Yup
   const validationSchema = Yup.object({
@@ -284,6 +286,12 @@ export default function RegistrationForm() {
               {formik.errors.agreed}
             </div>
           ) : null}
+
+          {error && (
+            <div className="bg-white-600 bg-opacity-20 border border-red-500 text-red-500 p-3 rounded-lg mb-4 text-sm">
+              <strong>Error:</strong> {error}
+            </div>
+          )}
 
           {/* Register button */}
           <button

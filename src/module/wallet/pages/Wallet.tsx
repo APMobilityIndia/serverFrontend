@@ -5,6 +5,7 @@ import {
   BsClockHistory,
   BsTrash,
 } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 export default function Wallet() {
   return (
@@ -64,37 +65,43 @@ export default function Wallet() {
 
         {/* Action Buttons */}
         <div className="grid grid-cols-4 gap-2 w-full">
-          <div className="flex flex-col items-center">
+          <Link className="flex flex-col items-center" to="/walletdeposit">
             <div className="bg-gray-200 p-3 rounded-lg mb-1">
               <BsWallet2 className="text-purple-900 text-xl" />
             </div>
             <span className="text-gray-300 text-xs">Deposit</span>
-          </div>
+          </Link>
 
-          <div className="flex flex-col items-center">
+          <Link className="flex flex-col items-center" to="/walletwithdraw">
             <div className="bg-gray-200 p-3 rounded-lg mb-1">
               <BsCashStack className="text-purple-900 text-xl" />
             </div>
             <span className="text-gray-300 text-xs">Withdraw</span>
-          </div>
+          </Link>
 
-          <div className="flex flex-col items-center">
+          <Link
+            className="flex flex-col items-center"
+            to="/walletdeposithistory"
+          >
             <div className="bg-gray-200 p-3 rounded-lg mb-1">
               <BsClockHistory className="text-purple-900 text-xl" />
             </div>
             <span className="text-gray-300 text-xs whitespace-nowrap">
               Deposit History
             </span>
-          </div>
+          </Link>
 
-          <div className="flex flex-col items-center">
+          <Link
+            className="flex flex-col items-center"
+            to="/walletwithdrawhistory"
+          >
             <div className="bg-gray-200 p-3 rounded-lg mb-1">
               <BsTrash className="text-purple-900 text-xl" />
             </div>
             <span className="text-gray-300 text-xs whitespace-nowrap">
               Withdrawal History
             </span>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

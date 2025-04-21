@@ -49,3 +49,28 @@ export const login: any = createAsyncThunk(
     }
   }
 );
+
+export const logout: any = createAsyncThunk(
+  "auth/logout",
+  async (
+    data: { phone: string; plain_password: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post(`${BASE_URL}auth/logout`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Store the token in localStorage for future API calls
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error?.response?.data?.message || "Login failed");
+    }
+  }
+);

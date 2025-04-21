@@ -13,9 +13,9 @@ export default function BottomTab() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-[#1A0B2E] border-t border-purple-800 py-2 px-4 flex justify-between max-w-md w-full mx-auto z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-[#1A0B2E] border-t border-purple-800 py-3 px-4 flex justify-between max-w-md w-full mx-auto z-50">
       {tabs.map((tab) => {
-        const isActive = pathname === tab.to;
+        const isActive: any = pathname === tab.to;
         return (
           <Link
             to={tab.to}
@@ -29,7 +29,13 @@ export default function BottomTab() {
                 isActive ? "opacity-100" : "opacity-50"
               }`}
             />
-            <span className={isActive ? "text-white font-medium" : ""}>
+            <span
+              className={
+                isActive
+                  ? "text-blue-800 font-medium"
+                  : "text-white font-medium"
+              }
+            >
               {tab.label}
             </span>
           </Link>
