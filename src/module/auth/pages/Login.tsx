@@ -74,8 +74,9 @@ export default function Login() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col w-full max-w-md mx-auto"
-    
+    <div
+      className="min-h-screen text-white flex flex-col w-full max-w-md mx-auto"
+      style={{ backgroundColor: "#1A0B2E" }}
     >
       {/* Header */}
       <div
@@ -226,27 +227,25 @@ export default function Login() {
 
           {/* Register link */}
           <div className="text-center w-full">
-           <div
-  onClick={() => navigate("/register")}
-  className="text-white border border-teal-400 rounded-full w-full py-3 cursor-pointer hover:bg-teal-800 hover:bg-opacity-10 transition"
->
-  <span className="text-teal-400 font-medium">Register</span>
-</div>
-
+            <div
+              onClick={() => navigate("/register")}
+              className="text-white border border-teal-400 rounded-full w-full py-3 cursor-pointer hover:bg-teal-800 hover:bg-opacity-10 transition"
+            >
+              <span className="text-teal-400 font-medium">Register</span>
+            </div>
           </div>
 
           {/* Forgot Password & Customer Service */}
           <div className="flex justify-around mt-4">
-  <div className="flex flex-col items-center">
-    <IoMdLock size={40} color="#2dd4bf" />
-    <div className="mt-1 text-sm text-center">Forgot password</div>
-  </div>
-  <div className="flex flex-col items-center">
-    <RiCustomerServiceFill size={40} color="#2dd4bf" />
-    <div className="mt-1 text-sm text-center">Customer Service</div>
-  </div>
-</div>
-
+            <div className="flex flex-col items-center">
+              <IoMdLock size={40} color="#2dd4bf" />
+              <div className="mt-1 text-sm text-center">Forgot password</div>
+            </div>
+            <div className="flex flex-col items-center">
+              <RiCustomerServiceFill size={40} color="#2dd4bf" />
+              <div className="mt-1 text-sm text-center">Customer Service</div>
+            </div>
+          </div>
         </form>
       </div>
     </div>

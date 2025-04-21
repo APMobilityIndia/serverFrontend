@@ -202,18 +202,46 @@ export default function Account() {
         {/* Service center section */}
         <div className="px-4 mt-2 mb-6">
           <h2 className="text-sm font-semibold mb-2">SERVICE CENTER</h2>
-          <div className="grid grid-cols-3 gap-2">
-            <div className="flex flex-col items-center bg-purple-900 rounded-lg p-3">
-              <HelpCircle size={24} className="mb-1" />
-              <span className="text-xs">Help Center</span>
+          <div>
+            <div className="flex flex-row justify-evenly">
+              <div>
+                <div className="bg-white p-2 rounded-lg mr-3">
+                  <img src="assets/setting.png" className="h-5 w-5 mr-5" />
+                </div>
+                <p>setting</p>
+              </div>
+              <div>
+                <div className="bg-white p-2 rounded-lg mr-3">
+                  <img src="assets/setting.png" className="h-5 w-5 mr-5" />
+                </div>
+                <p>setting</p>
+              </div>
+              <div>
+                <div className="bg-white p-2 rounded-lg mr-3">
+                  <img src="assets/setting.png" className="h-5 w-5 mr-5" />
+                </div>
+                <p>setting</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center bg-purple-900 rounded-lg p-3">
-              <MessageSquare size={24} className="mb-1" />
-              <span className="text-xs">Support</span>
-            </div>
-            <div className="flex flex-col items-center bg-purple-900 rounded-lg p-3">
-              <FileText size={24} className="mb-1" />
-              <span className="text-xs">Policies</span>
+            <div className="flex flex-row justify-evenly">
+              <div>
+                <div className="bg-white p-2 rounded-lg mr-3">
+                  <img src="assets/setting.png" className="h-5 w-5 mr-5" />
+                </div>
+                <p>setting</p>
+              </div>
+              <div>
+                <div className="bg-white p-2 rounded-lg mr-3">
+                  <img src="assets/setting.png" className="h-5 w-5 mr-5" />
+                </div>
+                <p>setting</p>
+              </div>
+              <div>
+                <div className="bg-white p-2 rounded-lg mr-3">
+                  <img src="assets/setting.png" className="h-5 w-5 mr-5" />
+                </div>
+                <p>setting</p>
+              </div>
             </div>
           </div>
         </div>
