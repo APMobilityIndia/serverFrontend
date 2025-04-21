@@ -3,65 +3,95 @@ import { Mail, FileText, X } from "lucide-react";
 
 const Activity = () => {
   return (
-    <div className="bg-purple-950 min-h-screen text-white p-4">
+    <div
+      style={{ backgroundColor: "transparent" }}
+      className="min-h-screen text-white p-4"
+    >
       {/* Header Section with Cards & Roulette */}
-      <div className="bg-purple-900 rounded-xl p-4 mb-4 relative overflow-hidden">
-        <div className="z-10 relative">
-          <h2 className="font-medium text-lg mb-1">
-            Invite friends and deposit
-          </h2>
-          <p className="text-xs text-gray-300 mb-2">
-            Both parties can receive rewards.
-          </p>
-          <p className="text-xs text-gray-300">
-            Invite friends to register and recharge to receive rewards.
-          </p>
-
-          <div className="mt-4">
-            <p className="text-xs text-gray-300">Activity date:</p>
-            <p className="text-xs">2025-04-10 ~ 2041-12-29</p>
-          </div>
+      <div
+        className="mb-4 relative overflow-hidden bg-gradient-to-r from-purple-800 to-indigo-900 shadow-lg"
+        style={{ borderRadius: "0px 0px 20px 20px" }}
+      >
+        {/* Image and Container 100% Width */}
+        <div className="absolute inset-0">
+          <img
+            src="/assets/activitymain.png"
+            alt="Casino elements"
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        {/* Background Images - Casino Elements */}
-        <div className="absolute right-0 top-0 h-full">
-          <img
-            src="/api/placeholder/200/200"
-            alt="Casino elements"
-            className="h-full object-cover"
-          />
+        {/* Text Content */}
+        <div className="z-10 relative p-4">
+          {/* Added a div to contain the text and apply left alignment */}
+          <div className="text-left relative z-10">
+            <h2 className="font-bold text-xl text-white mb-2">
+              Invite friends and deposit
+            </h2>
+            <p className="text-sm text-gray-200 mb-2">
+              Both parties can receive rewards.
+            </p>
+            <p className="text-sm text-gray-200 mb-4">
+              Invite friends to register and recharge to receive rewards.
+            </p>
+
+            <div className="mt-4">
+              <p className="text-xs text-gray-300">Activity date:</p>
+              <p className="text-xs text-white">2025-04-10 ~ 2041-12-29</p>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <button className="flex items-center justify-center gap-2 bg-purple-900 rounded-xl py-3 px-4">
-          <Mail size={20} />
-          <span>Invitation rule</span>
+      <div className="grid grid-cols-2 gap-0 mb-6 border-1 rounded-2xl w-70">
+        <button
+          style={{ backgroundColor: "#1B0831" }}
+          className="flex flex-col items-center justify-start py-3 px-4 rounded-tl-2xl rounded-bl-2xl"
+        >
+          <Mail size={20} className="mb-1" /> {/* Added mb-1 for spacing */}
+          <span className="text-sm">Invitation rule</span>
         </button>
-        <button className="flex items-center justify-center gap-2 bg-purple-900 rounded-xl py-3 px-4">
-          <FileText size={20} />
-          <span>Invitation record</span>
+        <button
+          style={{ backgroundColor: "#1B0831" }}
+          className="flex flex-col items-center justify-start py-3 px-4 rounded-tr-2xl rounded-br-2xl"
+        >
+          <FileText size={20} className="mb-1" /> {/* Added mb-1 for spacing */}
+          <span className="text-sm">Invitation record</span>
         </button>
       </div>
 
       {/* Bonus Section */}
-      <div className="bg-purple-900 rounded-xl p-4 mb-6">
+      <div
+        style={{ backgroundColor: "#1B0831" }}
+        className=" rounded-xl p-4 mb-6 border"
+      >
         {/* Bonus Label */}
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
-            <div className="bg-orange-500 text-white rounded-r-full pl-4 pr-6 py-1 -ml-4">
+            <div
+              style={{
+                backgroundColor: "#FF922E",
+                borderWidth: 1,
+                borderTopLeftRadius: 4,
+                borderBottomRightRadius: 4,
+              }}
+              className=" text-white rounded-r-full pl-4 pr-6 py-1"
+            >
               Bonus
-            </div>
-            <div className="bg-gray-700 rounded-full p-1 ml-2">
-              <X size={14} />
+              <div className="bg-gray-700 rounded-full p-1 ml-2">
+                <X size={14} />
+              </div>
             </div>
           </div>
           <div className="text-xl font-bold">₹38.00</div>
         </div>
 
         {/* Number of Invitees */}
-        <div className="bg-purple-800 rounded-lg p-4 mb-4 flex justify-between items-center">
+        <div
+          style={{ backgroundColor: "#432566", borderWidth: 1 }}
+          className=" rounded-lg p-4 mb-4 flex justify-between items-center"
+        >
           <span>Number of Invitees</span>
           <span className="font-bold">1</span>
         </div>

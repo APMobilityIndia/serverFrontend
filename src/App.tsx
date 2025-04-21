@@ -28,6 +28,9 @@ import WalletWithdrawHistory from "./module/wallet/pages/WalletWithdrawHistory";
 import WalletWithdraw from "./module/wallet/pages/WalletWithdraw";
 import WalletDepositHistory from "./module/wallet/pages/WalletDepositHistory";
 import WalletDeposit from "./module/wallet/pages/WalletDeposit";
+import PartnerReward from "./module/promotion/pages/PartnerReward";
+import SubordinateData from "./module/promotion/pages/SubordinateData";
+import { InvitationRules } from "./module/promotion/pages/InvitationRules";
 
 export default function App() {
   return (
@@ -38,6 +41,10 @@ export default function App() {
         <Route path="register" element={<Register />} />
         <Route path="activity" element={<Activity />} />
         <Route path="promotion" element={<Promotion />} />
+        <Route path="partnerreward" element={<PartnerReward />} />
+        <Route path="subordinatedata" element={<SubordinateData />} />
+        <Route path="invitationrules" element={<InvitationRules />} />
+
         <Route path="wallet" element={<Wallet />} />
         <Route path="walletdeposit" element={<WalletDeposit />} />
         <Route path="walletdeposithistory" element={<WalletDepositHistory />} />

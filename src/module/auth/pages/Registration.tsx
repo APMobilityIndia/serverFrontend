@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -135,7 +135,7 @@ export default function RegistrationForm() {
               type="text"
               name="name_user"
               placeholder="Please enter your name"
-              className="bg-blue-900 rounded-lg px-4 py-3 flex-1 outline-none text-gray-300 w-100"
+              className="bg-blue-900 rounded-lg px-4 py-3 flex-1 outline-none text-gray-300 w-full" // Added w-full
               value={formik.values.name_user}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -164,7 +164,7 @@ export default function RegistrationForm() {
                 type="text"
                 name="phone"
                 placeholder="Please enter the phone number"
-                className="bg-blue-900 rounded-r-lg px-4 py-3 flex-1 outline-none text-gray-300 w-full"
+                className="bg-blue-900 rounded-r-lg px-4 py-3 flex-1 outline-none text-gray-300 w-full" // Added w-full
                 value={formik.values.phone}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -189,7 +189,7 @@ export default function RegistrationForm() {
               type={showPassword ? "text" : "password"}
               name="plain_password"
               placeholder="Set password"
-              className="bg-blue-900 rounded-lg px-4 py-3 w-full outline-none text-gray-300"
+              className="bg-blue-900 rounded-lg px-4 py-3 w-full outline-none text-gray-300" // Added w-full
               value={formik.values.plain_password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -219,7 +219,7 @@ export default function RegistrationForm() {
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               placeholder="Confirm password"
-              className="bg-blue-900 rounded-lg px-4 py-3 w-full outline-none text-gray-300"
+              className="bg-blue-900 rounded-lg px-4 py-3 w-full outline-none text-gray-300" // Added w-full
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -253,7 +253,7 @@ export default function RegistrationForm() {
               type="text"
               name="inviteCode"
               placeholder="Please enter the invitation code"
-              className="bg-blue-900 rounded-lg px-4 py-3 w-full outline-none text-gray-300"
+              className="bg-blue-900 rounded-lg px-4 py-3 w-full outline-none text-gray-300" // Added w-full
               value={formik.values.inviteCode}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}

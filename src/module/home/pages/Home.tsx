@@ -167,11 +167,14 @@ const Home: React.FC<HomeProps> = ({
   const promoContent = [1, 2, 3, 4];
 
   return (
-    <div className="flex flex-col bg-[#1A0B2E] min-h-screen text-white">
-      <div className="flex-1 py-2 pb-16 w-full max-w-md mx-auto">
-        <div className="relative w-100 px-3 py-2 ml-6">
+    <div className="flex flex-col bg-[#1A0B2E] min-h-screen text-white items-center">
+      {/* Centered container */}
+      <div className="py-2 pb-16 w-full max-w-md">
+        {/* Removed mx-auto from here */}
+        <div className="relative w-full px-3 py-2">
+          {/* Removed ml-6 */}
           <button
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-0 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10" // changed -translate-x-4 to 0
             onClick={prevBanner}
             style={{
               background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
@@ -181,11 +184,13 @@ const Home: React.FC<HomeProps> = ({
             <FiChevronLeft size={20} color="white" />
           </button>
 
-          <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg mb-20 h-55 w-95">
+          <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg mb-20 h-48 w-80 mx-auto">
+            {/* Added mx-auto here, reduced h-55 to h-48 and w-95 to w-80 */}
             <img
               src={displayBanners[currentBannerIndex]?.image}
               alt={displayBanners[currentBannerIndex]?.title}
-              className="w-full h-[220px] object-cover"
+              className="w-full h-full object-cover"
+              style={{ height: "192px" }} // added inline style
             />
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
               {displayBanners.map((_, index) => (
@@ -201,7 +206,7 @@ const Home: React.FC<HomeProps> = ({
           </div>
 
           <button
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-0 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10" // changed translate-x-4 to 0
             onClick={nextBanner}
             style={{
               background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
@@ -225,7 +230,7 @@ const Home: React.FC<HomeProps> = ({
                   backgroundPosition: "center",
                   height: "70px",
                   border: "1px solid #7E22CE",
-                  borderRadius: "8px 8px 44px 8px", // Custom border radius: top-left, top-right, bottom-right, bottom-left
+                  borderRadius: "8px 8px 44px 8px",
                 }}
               >
                 <div
@@ -233,7 +238,7 @@ const Home: React.FC<HomeProps> = ({
                   style={{
                     background:
                       "linear-gradient(to top, rgba(88, 28, 135, 0.8), transparent)",
-                    borderRadius: "8px 8px 44px 8px", // Match the outer radius but slightly smaller
+                    borderRadius: "8px 8px 44px 8px",
                   }}
                 ></div>
                 <div className="absolute bottom-3 left-4 text-white font-medium text-xl">
