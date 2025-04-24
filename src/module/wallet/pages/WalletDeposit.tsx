@@ -1,10 +1,40 @@
-import React, { useState } from "react";
-import { FiArrowLeft, FiX } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiX } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  getActiveChannel,
+  getUserBankAccount,
+  addWithdrawalRequest,
+} from "../redux/walletApi";
+import { RootState } from "../../../redux/store";
 
 const WalletDeposit = () => {
-  const [selectedChannel, setSelectedChannel] = useState("Paytm-7Day");
+  const [selectedChannelId, setSelectedChannelId] = useState<string | null>(
+    null
+  );
   const [amount, setAmount] = useState("");
+  const dispatch = useDispatch();
+
+  const activeChannel = useSelector(
+    (state: RootState) => state.wallet.activeChannel
+  );
+  const bankAccountId = useSelector(
+    (state: any) => state.wallet.bankDetails?.bankAccounts?.[0]?._id
+  );
+
+  useEffect(() => {
+    dispatch(getActiveChannel());
+    dispatch(getUserBankAccount());
+  }, [dispatch]);
+
+  const depositChannels = activeChannel?.filter(
+    (channel: any) => channel.channelType === "deposit"
+  );
+
+  const selectedChannel = depositChannels?.find(
+    (c: any) => c._id === selectedChannelId
+  );
 
   const predefinedAmounts = [
     "200",
@@ -21,82 +51,92 @@ const WalletDeposit = () => {
     "50000",
   ];
 
-  const formatAmount = (val: string) => {
-    return `₹${Number(val).toLocaleString()}`;
+  const handleSubmit = () => {
+    if (!amount || isNaN(Number(amount)) || Number(amount) < 1) {
+      return alert("Please enter a valid amount to withdraw.");
+    }
+    if (!bankAccountId) {
+      return alert("No bank account found. Please add one first.");
+    }
+    dispatch(
+      addWithdrawalRequest({
+        bankAccountId,
+        money: Number(amount),
+      })
+    ).then((res: any) => {
+      console.log("✅ Withdrawal Response:", res);
+    });
   };
 
   return (
     <div className="bg-[#1A0B2E] min-h-screen text-white px-4 py-2 max-w-md mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between py-2 border-b border-gray-600">
-        <FiArrowLeft size={20} />
-        <span>Deposit</span>
+      <div className="flex items-center justify-between py-2 border-b border-gray-600 -mt-5">
         <Link to="/walletdeposithistory">
-          <span className="text-sm text-purple-400">Deposit History</span>
+          <span className="text-sm text-purple-400 ml-50">Deposit History</span>
         </Link>
       </div>
 
       {/* Balance Card */}
-      <div className="bg-gradient-to-r from-orange-400 to-pink-500 rounded-xl p-4 mt-4 mb-4 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-[#B00341] to-[#FF922E] rounded-xl p-4 mt-4 mb-4 text-white shadow-lg h-40">
         <div className="flex justify-between items-center">
           <div>
             <p className="text-sm">Balance</p>
-            <h2 className="text-2xl font-bold">₹0.00</h2>
+            <h2 className="text-2xl font-bold mt-2">₹0.00</h2>
+            <img src="/assets/card.png" className="h-10 w-10 mt-10" />
           </div>
-          <div className="text-right text-lg font-semibold">**** ****</div>
+          <div className="text-right text-lg font-semibold mt-20">
+            **** ****
+          </div>
         </div>
       </div>
 
       {/* Payment Methods */}
       <div className="grid grid-cols-3 gap-3 mb-4">
-        {["manualupi.png", "gatewayupi.png", "usdt.png"].map((img, idx) => (
+        {depositChannels?.map((channel: any) => (
           <div
-            key={idx}
-            className="bg-white rounded-md overflow-hidden text-center py-2"
+            key={channel._id}
+            onClick={() => setSelectedChannelId(channel._id)}
+            className={`rounded-md text-center py-2 cursor-pointer ${
+              selectedChannelId === channel._id ? "bg-purple-300" : "bg-white"
+            }`}
           >
             <img
-              src={`/assets/${img}`}
-              alt="method"
+              src={channel.logo}
+              alt={channel.title}
               className="w-full h-10 object-contain"
             />
-            <p className="text-sm text-black">
-              {idx === 0
-                ? "Manual UPI-QR"
-                : idx === 1
-                ? "Payment Gateway"
-                : "USTD"}
-            </p>
+            <p className="text-sm text-black">{channel.title}</p>
           </div>
         ))}
       </div>
 
-      {/* Channel Selection */}
-      <div className="border border-purple-500 rounded-md p-3 mb-6">
-        <h3 className="text-sm text-yellow-500 mb-2">Select Channel</h3>
-        <div className="flex gap-2">
-          {[
-            { name: "Paytm-7Day", balance: "20k-50k" },
-            { name: "Paytm-RUJIA", balance: "200-50k" },
-          ].map((channel) => (
-            <div
-              key={channel.name}
-              className={`flex-1 p-3 rounded-md text-center cursor-pointer transition duration-200 text-sm ${
-                selectedChannel === channel.name
-                  ? "bg-orange-500 text-white"
-                  : "bg-purple-800"
-              }`}
-              onClick={() => setSelectedChannel(channel.name)}
-            >
-              <p>{channel.name}</p>
-              <p className="text-xs">Balance: {channel.balance}</p>
-            </div>
-          ))}
+      {/* SubChannel Selection */}
+      {selectedChannel?.subChannels?.length > 0 && (
+        <div className="border border-purple-500 rounded-md p-3 mb-6">
+          <h3 className="text-sm text-yellow-500 mb-2">Select SubChannel</h3>
+          <div className="flex gap-2 overflow-auto">
+            {selectedChannel.subChannels.map((sub: any) => (
+              <div
+                key={sub._id}
+                className="p-3 rounded-md text-center bg-purple-800 text-white w-40 flex-shrink-0"
+              >
+                <img
+                  src={sub.meta.qrImage}
+                  alt="QR"
+                  className="h-20 w-full object-contain rounded mb-2"
+                />
+                <p className="text-xs">ID: {sub._id.slice(-6)}</p>
+                <p className="text-xs">Priority: {sub.priority}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Deposit Amount */}
       <div className="border border-purple-500 rounded-md p-3 mb-6">
-        <h3 className="text-sm mb-3">💳 Deposit Amount</h3>
+        <h3 className="text-sm mb-3">💳 Withdrawal Amount</h3>
         <div className="grid grid-cols-3 gap-2 mb-4">
           {predefinedAmounts.map((amt) => (
             <div
@@ -108,7 +148,7 @@ const WalletDeposit = () => {
               }`}
               onClick={() => setAmount(amt)}
             >
-              {`₹${Number(amt).toLocaleString()}`}
+              ₹{Number(amt).toLocaleString()}
             </div>
           ))}
         </div>
@@ -128,8 +168,11 @@ const WalletDeposit = () => {
             />
           )}
         </div>
-        <button className="mt-4 w-full bg-orange-500 py-3 rounded-full font-semibold text-white">
-          Deposit
+        <button
+          className="mt-4 w-full bg-orange-500 py-3 rounded-full font-semibold text-white"
+          onClick={handleSubmit}
+        >
+          Withdraw
         </button>
       </div>
 

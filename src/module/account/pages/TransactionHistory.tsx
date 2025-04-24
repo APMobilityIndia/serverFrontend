@@ -6,14 +6,14 @@ export default function TransactionHistory() {
   const [selectedDate, setSelectedDate] = useState("");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1B002C] to-[#2F124F] text-white p-4">
+    <div className="min-h-screen bg-gradient-to-b from-[#200534] to-[#200534] text-white p-4">
       {/* Header */}
-      <div className="flex items-center mb-4">
+      {/* <div className="flex items-center mb-4">
         <FiChevronLeft size={24} className="text-white" />
         <h1 className="text-lg font-semibold flex-1 text-center -ml-6">
           Transaction History
         </h1>
-      </div>
+      </div> */}
 
       {/* Filters */}
       <div className="flex gap-3 mb-10">

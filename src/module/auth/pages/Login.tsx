@@ -84,8 +84,11 @@ export default function Login() {
         className="bg-blue-950 p-4 flex items-center w-full"
       >
         <div className="flex-1 text-center">
-          <div className="font-bold text-3xl italic inline">MBS.</div>
-          <div className="font-bold text-lg italic inline">Game</div>
+          <img
+            src="/assets/mbs_logo.png"
+            alt="MBS Logo"
+            className="w-20 h-20 object-cover"
+          />
         </div>
         <div className="flex items-center">
           <div className="w-6 h-6 rounded-full overflow-hidden mr-1">

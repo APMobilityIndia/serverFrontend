@@ -11,12 +11,12 @@ export default function GameHistory() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1B002C] to-[#2F124F] text-white p-4">
       {/* Header */}
-      <div className="flex items-center mb-4">
+      {/* <div className="flex items-center mb-4">
         <FiChevronLeft size={24} className="text-white" />
         <h1 className="text-lg font-semibold flex-1 text-center -ml-6">
           Rebate Ratio
         </h1>
-      </div>
+      </div> */}
 
       {/* Game Tabs */}
       <div className="grid grid-cols-4 gap-2 mb-4">
