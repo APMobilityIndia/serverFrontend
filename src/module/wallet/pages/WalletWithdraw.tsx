@@ -69,6 +69,16 @@ const WalletWithdraw = () => {
         </button>
       </div>
 
+      <Link
+        className="flex items-center justify-between bg-[#2B1B43] px-4 py-2 rounded-md mb-4"
+        to="/MoneyWithdraw"
+      >
+        <span className="text-sm">Withdraw money</span>
+        <button className="bg-orange-500 px-4 py-1 text-sm rounded-full font-medium">
+          Activate
+        </button>
+      </Link>
+
       {/* AR Wallet Info Box */}
       <div className="border border-gray-500 rounded-md p-4 mb-6">
         <h3 className="font-semibold text-base mb-2">AR Wallet</h3>

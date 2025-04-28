@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import axiosInstance from "../../../redux/axiosInterceptor";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -57,11 +58,15 @@ export const logout: any = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(`${BASE_URL}auth/logout`, data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.post(
+        `${BASE_URL}auth/logout`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       // Store the token in localStorage for future API calls
       if (response.data.token) {

@@ -6,20 +6,47 @@ import {
   BsTrash,
 } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { shiftWinningToWallet } from "../redux/walletApi"; // ✅ Correct import
 import { onWalletUpdate } from "../../../services/socket";
+import {
+  getLoginHistory,
+  getUserProfile,
+} from "../../account/redux/accountApi";
+import { AppDispatch } from "../../../redux/store";
 
 export default function Wallet() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const [walletBalance, setWalletBalance] = useState(0);
+  const [winningBalance, setWinningBalance] = useState(0); // ✅ added winning balance state
+
+  const profile = useSelector((state: any) => state.account.profile);
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+    dispatch(getLoginHistory());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (profile) {
+      setWinningBalance(profile.winningBalance || 0); // ✅ when profile loads initially
+    }
+  }, [profile]);
+
+  console.log("profile from wallet", profile);
 
   useEffect(() => {
     onWalletUpdate((data) => {
       console.log("📥 Wallet Update:", data);
-      setWalletBalance(data.newBalance); // Assume backend sends { newBalance: 1200 }
+      if (data.winningBalance !== undefined) {
+        setWinningBalance(data.winningBalance); // ✅ live update winningBalance
+      }
+      if (data.newBalance !== undefined) {
+        setWalletBalance(data.newBalance);
+      }
     });
   }, []);
-  const dispatch = useDispatch();
   const [showTransferPopup, setShowTransferPopup] = useState(false);
   const [amount, setAmount] = useState("");
 
@@ -37,7 +64,6 @@ export default function Wallet() {
         alert("Money shifted successfully!");
         setShowTransferPopup(false);
         setAmount("");
-        // TODO: If you want, refresh wallet balance here
       } else {
         alert(resultAction.payload || "Failed to shift money");
       }
@@ -54,18 +80,24 @@ export default function Wallet() {
         <div className="text-center mb-4">
           <div className="flex items-center justify-center">
             <span className="text-white text-xl mr-1">₹</span>
-            <span className="text-white text-4xl font-semibold">0.00</span>
+            <span className="text-white text-4xl font-semibold">
+              {winningBalance.toFixed(2)}
+            </span>
           </div>
-          <p className="text-gray-300 text-sm">Account Balance</p>
+          <p className="text-gray-300 text-sm">Winning Balance</p>
         </div>
         <div className="flex justify-between w-full px-6">
           <div className="text-center">
-            <p className="text-white text-lg font-semibold">₹0</p>
-            <p className="text-gray-300 text-xs">Total Amount</p>
+            <p className="text-white text-lg font-semibold">
+              ₹ {profile?.walletBalance || 0}
+            </p>
+            <p className="text-gray-300 text-xs">Wallet Balance</p>
           </div>
           <div className="text-center">
-            <p className="text-white text-lg font-semibold">₹0</p>
-            <p className="text-gray-300 text-xs">Total Deposit Amount</p>
+            <p className="text-white text-lg font-semibold">
+              ₹{profile?.commissionBalance || 0}
+            </p>
+            <p className="text-gray-300 text-xs">Commition Amount</p>
           </div>
         </div>
       </div>

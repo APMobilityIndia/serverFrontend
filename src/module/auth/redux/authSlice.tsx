@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, login } from "./authApi";
+import { register, login, logout } from "./authApi"; // ✅ import logout thunk properly
 
 interface AuthState {
   loading: boolean;
@@ -18,13 +18,7 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null; // ← Add this line
-      localStorage.removeItem("token");
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // Registration cases
@@ -54,9 +48,24 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+
+      // Logout
+      .addCase(logout.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.token = null;
+        localStorage.removeItem("token"); // ✅ clear token after logout success
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;

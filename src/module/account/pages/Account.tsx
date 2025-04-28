@@ -1,27 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ChevronRight, LogOut } from "lucide-react";
 
 import { FaRegCopy } from "react-icons/fa6";
 
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../redux/store"; // update path based on your structure
-import { logout as logoutThunk } from "../../auth/redux/authApi";
-import { logout as logoutAction } from "../../auth/redux/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store"; // update path based on your structure
+import { logout, logout as logoutThunk } from "../../auth/redux/authApi";
 import { useNavigate, Link } from "react-router-dom"; // if you're using react-router
+import { getLoginHistory, getUserProfile } from "../redux/accountApi"; // ✅
 
 export default function Account() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate(); // Optional, if redirect needed
+  const { profile, loginHistory, loading } = useSelector(
+    (state: RootState) => state.account
+  );
+
+  console.log("profile", profile);
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+    dispatch(getLoginHistory());
+  }, [dispatch]);
 
   const handleLogout = async () => {
     try {
-      await dispatch(logoutThunk({ phone: "", plain_password: "" }));
-      dispatch(logoutAction());
+      await dispatch(logout());
+      // dispatch(logoutAction());
       navigate("/"); // <-- Ensure redirection happens
     } catch (error) {
       console.error("Logout failed", error);
     }
   };
+
+  const latestLogin =
+    loginHistory.length > 0
+      ? new Date(loginHistory[0].loggedInAt).toLocaleString()
+      : "N/A";
 
   return (
     <div
@@ -32,13 +47,13 @@ export default function Account() {
       <div className="flex items-center p-4">
         <div className="mr-3">
           <img
-            src="/assets/profile.png"
+            src={profile?.avatar || "/assets/profile.png"}
             alt="User avatar"
             className="rounded-full border-2 border-white w-20 h-20 object-cover"
           />
         </div>
         <div className="text-left space-y-2">
-          <p className="font-bold text-sm ml-1">MEMBERNNG9ADSF</p>
+          <p className="font-bold text-sm ml-1">{profile?.name_user || "NA"}</p>
 
           <div
             className="flex items-center justify-evenly gap-2 px-4 w-fit h-7"
@@ -48,7 +63,7 @@ export default function Account() {
             }}
           >
             <span className="text-sm font-medium text-white ">
-              UID | 1597560
+              UID | {profile?.id_user || "-"}
             </span>
             <button style={{ backgroundColor: "transparent" }}>
               <FaRegCopy className="text-white text-base" />
@@ -56,7 +71,7 @@ export default function Account() {
           </div>
 
           <div className="text-sm text-white ml-1">
-            Last Login: 2025-04-11 13:05:49
+            Last Login: {latestLogin}
           </div>
         </div>
       </div>
@@ -72,7 +87,12 @@ export default function Account() {
         >
           <div className="mb-2 text-left ml-5">
             <p className="text-white text-sm">Total Balance</p>
-            <h2 className="text-white text-2xl font-bold">₹0.00</h2>
+            <h2 className="text-white text-2xl font-bold">
+              ₹
+              {profile?.total_money !== undefined
+                ? profile.total_money
+                : "0.00"}
+            </h2>
           </div>
 
           <div

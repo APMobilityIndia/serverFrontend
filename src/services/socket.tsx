@@ -6,7 +6,7 @@ let socket: any = null;
 export const connectSocket = (token: string) => {
   if (socket) return; // Already connected
 
-  socket = io("http://localhost:8080", {
+  socket = io("http://192.168.1.4:8080", {
     auth: { token },
     transports: ["websocket"],
   });

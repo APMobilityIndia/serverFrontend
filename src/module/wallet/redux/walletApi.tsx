@@ -170,3 +170,20 @@ export const shiftWinningToWallet: any = createAsyncThunk(
     }
   }
 );
+
+export const getWithdrawalDetails: any = createAsyncThunk(
+  "wallet/getWithdrawalDetails",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get("wallet/GetWithdrawalDetails");
+
+      console.log("💡 Withdrawal Details API Response:", response.data.data);
+      return response.data.data; // we want only the `data` object
+    } catch (error: any) {
+      console.error("❌ Withdrawal details fetch failed:", error?.response);
+      return rejectWithValue(
+        error?.response?.data?.message || "Failed to fetch withdrawal details"
+      );
+    }
+  }
+);

@@ -34,6 +34,8 @@ import { InvitationRules } from "./module/promotion/pages/InvitationRules";
 import WalletBankDetails from "./module/wallet/pages/WalletBankDetails";
 import WalletAddBank from "./module/wallet/pages/WalletAddBank";
 import WalletUpdateBank from "./module/wallet/pages/WalletUpdateBank";
+import MoneyWithdraw from "./module/wallet/pages/MoneyWithdraw";
+import EditDetails from "./module/account/pages/EditDetails";
 
 export default function App() {
   return (
@@ -81,6 +83,8 @@ export default function App() {
         <Route path="settings" element={<Settings />} />
         <Route path="transactionhistory" element={<TransactionHistory />} />
         <Route path="withdraw" element={<Withdraw />} />
+        <Route path="MoneyWithdraw" element={<MoneyWithdraw />} />
+        <Route path="/editdetails" element={<EditDetails />} />
       </Route>
     </Routes>
   );

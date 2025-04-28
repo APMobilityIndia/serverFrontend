@@ -7,6 +7,7 @@ import {
   getActiveChannel,
   getUserBankAccount,
   shiftWinningToWallet, // ✅ Import it here
+  getWithdrawalDetails, // ✅ import it
 } from "./walletApi";
 
 interface WalletState {
@@ -14,6 +15,7 @@ interface WalletState {
   withdrawHistory: any[];
   activeChannel: any[];
   bankDetails: any[];
+  withdrawalDetails: any | null; // ✅ new
   loading: boolean;
   error: string | null;
 }
@@ -23,6 +25,7 @@ const initialState: WalletState = {
   withdrawHistory: [],
   activeChannel: [],
   bankDetails: [],
+  withdrawalDetails: null, // ✅ new
   loading: false,
   error: null,
 };
@@ -98,6 +101,20 @@ const walletSlice = createSlice({
         state.loading = false;
       })
       .addCase(shiftWinningToWallet.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // Withdrawal Details
+      .addCase(getWithdrawalDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getWithdrawalDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.withdrawalDetails = action.payload;
+      })
+      .addCase(getWithdrawalDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

@@ -8,8 +8,9 @@ import {
   addWithdrawalRequest,
 } from "../redux/walletApi";
 import { RootState } from "../../../redux/store";
+import { getWithdrawalDetails } from "../redux/walletApi"; // ✅
 
-const WalletDeposit = () => {
+const MoneyWithdraw = () => {
   const [selectedChannelId, setSelectedChannelId] = useState<string | null>(
     null
   );
@@ -26,10 +27,15 @@ const WalletDeposit = () => {
   useEffect(() => {
     dispatch(getActiveChannel());
     dispatch(getUserBankAccount());
+    dispatch(getWithdrawalDetails()); // ✅ fetch withdrawal rules
   }, [dispatch]);
 
+  const withdrawalDetails = useSelector(
+    (state: RootState) => state.wallet.withdrawalDetails
+  );
+
   const depositChannels = activeChannel?.filter(
-    (channel: any) => channel.channelType === "deposit"
+    (channel: any) => channel.channelType === "withdraw"
   );
 
   const selectedChannel = depositChannels?.find(
@@ -51,29 +57,44 @@ const WalletDeposit = () => {
     "50000",
   ];
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!amount || isNaN(Number(amount)) || Number(amount) < 1) {
       return alert("Please enter a valid amount to withdraw.");
     }
     if (!bankAccountId) {
       return alert("No bank account found. Please add one first.");
     }
-    dispatch(
-      addWithdrawalRequest({
-        bankAccountId,
-        money: Number(amount),
-      })
-    ).then((res: any) => {
-      console.log("✅ Withdrawal Response:", res);
-    });
+
+    try {
+      const resultAction = await dispatch(
+        addWithdrawalRequest({
+          bankAccountId,
+          money: Number(amount),
+        })
+      );
+
+      if (addWithdrawalRequest.fulfilled.match(resultAction)) {
+        alert("✅ Withdrawal request submitted successfully!");
+        setAmount(""); // clear the amount input
+        setSelectedChannelId(null); // optional: clear selected channel if needed
+      } else if (addWithdrawalRequest.rejected.match(resultAction)) {
+        const errorMessage = resultAction.payload || "❌ Withdrawal failed.";
+        alert(errorMessage); // dynamic error message from API (e.g., "Insufficient balance")
+      }
+    } catch (error) {
+      console.error("❌ Withdrawal error", error);
+      alert("Something went wrong while submitting withdrawal request.");
+    }
   };
 
   return (
     <div className="bg-[#1A0B2E] min-h-screen text-white px-4 py-2 max-w-md mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between py-2 border-b border-gray-600 -mt-5">
-        <Link to="/walletdeposithistory">
-          <span className="text-sm text-purple-400 ml-50">Deposit History</span>
+        <Link to="/walletwithdrawhistory">
+          <span className="text-sm text-purple-400 ml-50">
+            Withdraw History
+          </span>
         </Link>
       </div>
 
@@ -156,14 +177,14 @@ const WalletDeposit = () => {
           <input
             type="text"
             placeholder="₹200.00 - 50000.00"
-            className="w-full rounded-md p-3 text-black"
+            className="w-full rounded-md p-3 text-white"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
           {amount && (
             <FiX
               size={20}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-black"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-white"
               onClick={() => setAmount("")}
             />
           )}
@@ -172,36 +193,66 @@ const WalletDeposit = () => {
           className="mt-4 w-full bg-orange-500 py-3 rounded-full font-semibold text-white"
           onClick={handleSubmit}
         >
-          Deposit
+          Withdraw
         </button>
       </div>
 
       {/* Rules */}
       <div className="border border-purple-500 rounded-md p-4 mb-10">
-        <div className="text-xs text-orange-400 font-semibold mb-1">Rule</div>
-        <p className="text-sm text-gray-300 italic mb-1">
-          Recharge instructions
-        </p>
-        <ul className="text-xs text-gray-300 list-disc pl-4 space-y-1">
-          <li>
-            If the transfer time is up, please fill out the deposit form again.
-          </li>
-          <li>
-            The transfer amount must match the order you created, otherwise the
-            money cannot be credited successfully.
-          </li>
-          <li>
-            If you transfer the wrong amount, our company will not be
-            responsible for the lost amount!
-          </li>
-          <li>
-            Note: do not cancel the deposit order after the money has been
-            transferred.
-          </li>
-        </ul>
+        {/* Rules Section */}
+        {withdrawalDetails && (
+          <div className="border border-transparent rounded-md p-4 mb-10">
+            <div className="text-xs text-orange-400 font-semibold mb-1">
+              Rules
+            </div>
+
+            {/* Dynamic Sentences */}
+            <div className="text-sm text-gray-300 mb-4 space-y-1">
+              {withdrawalDetails.requiredBetAmount && (
+                <p>
+                  Required Bet Amount must be ₹
+                  {withdrawalDetails.requiredBetAmount}
+                </p>
+              )}
+              {withdrawalDetails.availableToWithdraw && (
+                <p>
+                  Available Amount to Withdraw: ₹
+                  {withdrawalDetails.availableToWithdraw}
+                </p>
+              )}
+              {withdrawalDetails.withdrawalTime && (
+                <p>Withdrawal Time: {withdrawalDetails.withdrawalTime}</p>
+              )}
+              {withdrawalDetails.withdrawalTimesRemaining !== undefined && (
+                <p>
+                  Remaining Withdrawal Times Today:{" "}
+                  {withdrawalDetails.withdrawalTimesRemaining}
+                </p>
+              )}
+              {withdrawalDetails.withdrawalRange && (
+                <p>
+                  Withdrawal Range: ₹{withdrawalDetails.withdrawalRange.min} - ₹
+                  {withdrawalDetails.withdrawalRange.max}
+                </p>
+              )}
+            </div>
+
+            {/* Warning Messages */}
+            <p className="text-sm text-gray-300 italic mb-2">
+              Withdrawal Warnings:
+            </p>
+            <ul className="text-xs text-gray-300 list-disc pl-4 space-y-1">
+              {withdrawalDetails.warnings?.map(
+                (warning: string, index: number) => (
+                  <li key={index}>{warning}</li>
+                )
+              )}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default WalletDeposit;
+export default MoneyWithdraw;
