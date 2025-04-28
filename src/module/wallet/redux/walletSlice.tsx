@@ -1,10 +1,12 @@
 // src/module/wallet/redux/walletSlice.ts
+
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getWithdrawHistory,
   getDepositHistory,
   getActiveChannel,
   getUserBankAccount,
+  shiftWinningToWallet, // ✅ Import it here
 } from "./walletApi";
 
 interface WalletState {
@@ -12,7 +14,6 @@ interface WalletState {
   withdrawHistory: any[];
   activeChannel: any[];
   bankDetails: any[];
-
   loading: boolean;
   error: string | null;
 }
@@ -60,8 +61,7 @@ const walletSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      //Active Channels
-
+      // Active Channels
       .addCase(getActiveChannel.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -74,8 +74,8 @@ const walletSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      //Bank Details
 
+      // Bank Details
       .addCase(getUserBankAccount.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -85,6 +85,19 @@ const walletSlice = createSlice({
         state.bankDetails = action.payload;
       })
       .addCase(getUserBankAccount.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // 💸 Shift Winning to Wallet
+      .addCase(shiftWinningToWallet.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(shiftWinningToWallet.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(shiftWinningToWallet.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

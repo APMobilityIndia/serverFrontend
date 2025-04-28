@@ -151,3 +151,22 @@ export const addWithdrawalRequest: any = createAsyncThunk(
     }
   }
 );
+
+export const shiftWinningToWallet: any = createAsyncThunk(
+  "wallet/shiftWinningToWallet",
+  async (money: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("wallet/ShiftWinningToWallet", {
+        money,
+      });
+
+      console.log("✅ Shift Winning API Response:", response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error("❌ Shift Winning Error:", error?.response);
+      return rejectWithValue(
+        error?.response?.data?.message || "Failed to shift winning balance"
+      );
+    }
+  }
+);

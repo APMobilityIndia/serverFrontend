@@ -1,16 +1,24 @@
 import React from "react";
 import { FiArrowLeft } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const WalletWithdraw = () => {
+  const navigate = useNavigate();
+
+  const handleMethodClick = (label: any) => {
+    if (label === "Bank Card") {
+      navigate("/walletBankDetails"); // Update this to your actual route
+    }
+  };
+
   return (
     <div className="bg-[#1A0B2E] min-h-screen text-white px-4 py-2 max-w-md mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between py-2 border-b border-gray-600">
-        <FiArrowLeft size={20} />
-        <span>Withdraw</span>
+        {/* <FiArrowLeft size={20} />
+        <span>Withdraw</span> */}
         <Link to="/walletwithdrawhistory">
-          <span className="text-sm text-white">Withdraw History</span>
+          <span className="text-sm text-white ml-50">Withdraw History</span>
         </Link>
       </div>
 
@@ -33,6 +41,7 @@ const WalletWithdraw = () => {
         ].map((item, index) => (
           <div
             key={index}
+            onClick={() => handleMethodClick(item.label)}
             className="border border-gray-500 rounded-lg p-2 text-center"
           >
             <img

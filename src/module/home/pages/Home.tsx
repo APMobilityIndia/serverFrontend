@@ -174,17 +174,17 @@ const Home: React.FC<HomeProps> = ({
         <div className="relative w-full px-3 py-2">
           {/* Removed ml-6 */}
           <button
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-0 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10" // changed -translate-x-4 to 0
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-0 rounded w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10" // changed -translate-x-4 to 0
             onClick={prevBanner}
             style={{
-              background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
+              background: "linear-gradient(135deg, #370C59 0%, #92267B 100%)",
               boxShadow: "0 4px 10px rgba(99, 102, 241, 0.5)",
             }}
           >
             <FiChevronLeft size={20} color="white" />
           </button>
 
-          <div className="rounded-3xl overflow-hidden relative border-2 border-purple-600 shadow-lg mb-20 h-48 w-80 mx-auto">
+          <div className="rounded-3xl overflow-hidden relative border-2 border-white shadow-lg mb-20 h-48 w-80 mx-auto">
             {/* Added mx-auto here, reduced h-55 to h-48 and w-95 to w-80 */}
             <img
               src={displayBanners[currentBannerIndex]?.image}
@@ -206,10 +206,10 @@ const Home: React.FC<HomeProps> = ({
           </div>
 
           <button
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-0 rounded-full w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10" // changed translate-x-4 to 0
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-0 rounded w-8 h-8 flex items-center justify-center z-10 shadow-lg -mt-10" // changed translate-x-4 to 0
             onClick={nextBanner}
             style={{
-              background: "linear-gradient(135deg, #6366F1 0%, #9333EA 100%)",
+              background: "linear-gradient(135deg, #370C59 0%, #92267B 100%)",
               boxShadow: "0 4px 10px rgba(99, 102, 241, 0.5)",
             }}
           >
@@ -274,7 +274,7 @@ const Home: React.FC<HomeProps> = ({
                   <img
                     src={category.image}
                     alt={category.name}
-                    className="w-20 h-20 object-cover"
+                    className="w-20 h-16 object-cover"
                   />
                 </div>
                 <span className="text-xs text-center text-white">
@@ -284,8 +284,8 @@ const Home: React.FC<HomeProps> = ({
             ))}
           </div>
         </div>
-        <div className="bg-purple-950 mt-auto mx-3 my-4 rounded-lg flex items-center p-2 border border-red-500">
-          <div className="bg-red-500 rounded-md p-1 mr-2">
+        <div className=" mt-auto mx-3 my-4 rounded-lg flex items-center p-2 border border-white">
+          <div className=" rounded-xl p-1 mr-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -302,7 +302,7 @@ const Home: React.FC<HomeProps> = ({
           <div className="flex-1 text-xs break-words whitespace-normal">
             {displayAnnouncement}
           </div>
-          <button className="text-xs text-white px-2 py-1 rounded ml-2 bg-gradient-to-r from-purple-600 to-purple-900">
+          <button className="text-xs text-white px-3 py-1 rounded-xl ml-2 bg-gradient-to-r from-purple-600 to-purple-900">
             Detail
           </button>
         </div>

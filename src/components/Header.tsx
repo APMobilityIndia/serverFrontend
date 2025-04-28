@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { FiBell, FiChevronDown } from "react-icons/fi";
+import { FiChevronDown } from "react-icons/fi";
 
 export default function Header() {
   const token = useSelector((state: any) => state.auth?.token);
@@ -33,15 +33,16 @@ export default function Header() {
   return (
     <div
       style={{ backgroundColor: "#1A0B2E" }}
-      className="p-4 flex items-center justify-between space-x-4 md:space-x-32" // Adjusted space-x
+      className="p-4 flex items-center justify-between space-x-4 md:space-x-32"
     >
       <div>
         <img
           src="/assets/mbs_logo.png"
           alt="MBS Logo"
-          className="w-20 h-20 object-cover"
+          className="w-12 h-12 object-contain" // Reduced size from w-20 h-20
         />
       </div>
+
       {token ? (
         <div className="flex items-center space-x-2 mr-4">
           {/* Language Dropdown */}
@@ -50,19 +51,17 @@ export default function Header() {
               className="flex items-center cursor-pointer text-white border border-purple-500 rounded-md px-2 py-1"
               onClick={toggleLanguageDropdown}
             >
-              <div className="w-6 h-4 mr-1 overflow-hidden">
+              <div className="w-5 h-3.5 mr-1 overflow-hidden">
                 <img
-                  src={
-                    language === "en"
-                      ? "/assets/langauge.png"
-                      : "/assets/langauge.png"
-                  }
-                  alt={language === "en" ? "USA Flag" : "India Flag"}
+                  src="/assets/langauge.png"
+                  alt="Language Flag"
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span>{language === "en" ? "English" : "Hindi"}</span>
-              <FiChevronDown className="ml-1" />
+              <span className="text-sm">
+                {language === "en" ? "English" : "Hindi"}
+              </span>
+              <FiChevronDown className="ml-1 text-sm" />
             </div>
 
             {showLanguageDropdown && (
@@ -71,27 +70,23 @@ export default function Header() {
                   className="flex items-center px-4 py-2 text-white hover:bg-purple-800 cursor-pointer"
                   onClick={() => selectLanguage("en")}
                 >
-                  <div className="w-6 h-4 mr-2 overflow-hidden">
-                    <img
-                      src="/assets/usa_flag.png"
-                      alt="USA Flag"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <span>English</span>
+                  <img
+                    src="/assets/usa_flag.png"
+                    alt="USA Flag"
+                    className="w-5 h-3.5 mr-2 object-contain"
+                  />
+                  <span className="text-sm">English</span>
                 </div>
                 <div
                   className="flex items-center px-4 py-2 text-white hover:bg-purple-800 cursor-pointer"
                   onClick={() => selectLanguage("hi")}
                 >
-                  <div className="w-6 h-4 mr-2 overflow-hidden">
-                    <img
-                      src="/assets/india_flag.png"
-                      alt="India Flag"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <span>Hindi</span>
+                  <img
+                    src="/assets/india_flag.png"
+                    alt="India Flag"
+                    className="w-5 h-3.5 mr-2 object-contain"
+                  />
+                  <span className="text-sm">Hindi</span>
                 </div>
               </div>
             )}
@@ -103,19 +98,17 @@ export default function Header() {
               className="flex items-center cursor-pointer text-white border border-purple-500 rounded-md px-2 py-1"
               onClick={toggleCurrencyDropdown}
             >
-              <div className="w-6 h-4 mr-1 overflow-hidden">
-                <img
-                  src={
-                    currency === "usd"
-                      ? "/assets/usa_flag.png"
-                      : "/assets/india_flag.png"
-                  }
-                  alt={currency === "usd" ? "USA Flag" : "India Flag"}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <span>{currency === "usd" ? "$" : "₹"}</span>
-              <FiChevronDown className="ml-1" />
+              <img
+                src={
+                  currency === "usd"
+                    ? "/assets/usa_flag.png"
+                    : "/assets/india_flag.png"
+                }
+                alt="Currency Flag"
+                className="w-5 h-3.5 mr-1 object-contain"
+              />
+              <span className="text-sm">{currency === "usd" ? "$" : "₹"}</span>
+              <FiChevronDown className="ml-1 text-sm" />
             </div>
 
             {showCurrencyDropdown && (
@@ -124,27 +117,23 @@ export default function Header() {
                   className="flex items-center px-4 py-2 text-white hover:bg-purple-800 cursor-pointer"
                   onClick={() => selectCurrency("usd")}
                 >
-                  <div className="w-6 h-4 mr-2 overflow-hidden">
-                    <img
-                      src="/assets/usa_flag.png"
-                      alt="USA Flag"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <span>USD ($)</span>
+                  <img
+                    src="/assets/usa_flag.png"
+                    alt="USA Flag"
+                    className="w-5 h-3.5 mr-2 object-contain"
+                  />
+                  <span className="text-sm">USD ($)</span>
                 </div>
                 <div
                   className="flex items-center px-4 py-2 text-white hover:bg-purple-800 cursor-pointer"
                   onClick={() => selectCurrency("inr")}
                 >
-                  <div className="w-6 h-4 mr-2 overflow-hidden">
-                    <img
-                      src="/assets/india_flag.png"
-                      alt="India Flag"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <span>INR (₹)</span>
+                  <img
+                    src="/assets/india_flag.png"
+                    alt="India Flag"
+                    className="w-5 h-3.5 mr-2 object-contain"
+                  />
+                  <span className="text-sm">INR (₹)</span>
                 </div>
               </div>
             )}
@@ -154,28 +143,23 @@ export default function Header() {
           <img
             src="/assets/notification.png"
             alt="Notification"
-            className="w-5 h-5 object-contain"
+            className="w-4 h-4 object-contain"
           />
-          {/* <FiBell size={24} className="text-white" /> */}
         </div>
       ) : (
         <div className="flex space-x-2 flex-row">
-          <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg whitespace-nowrap">
-            {" "}
-            {/* Added whitespace-nowrap */}
+          <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
             <Link
               to="/login"
-              className="block px-4 md:px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg" // Adjusted padding
+              className="block px-3 py-1.5 text-sm bg-gray-900 text-white border border-purple-500 rounded-md"
             >
               Login
             </Link>
           </div>
-          <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg whitespace-nowrap">
-            {" "}
-            {/* Added whitespace-nowrap */}
+          <div className="p-[1px] bg-gradient-to-r from-teal-400 via-purple-500 to-pink-500 rounded-lg">
             <Link
               to="/register"
-              className="block px-4 md:px-6 py-2 bg-gray-900 text-white border border-purple-500 rounded-lg" // Adjusted padding
+              className="block px-3 py-1.5 text-sm bg-gray-900 text-white border border-purple-500 rounded-md"
             >
               Register
             </Link>
